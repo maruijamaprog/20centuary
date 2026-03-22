@@ -93,6 +93,25 @@ canvas{display:block;position:fixed;top:60px;left:0;right:0;bottom:0}
   backdrop-filter:blur(8px);pointer-events:none;
   letter-spacing:.2px;
 }
+
+#infoBtn{
+  position:fixed;bottom:14px;right:14px;z-index:300;
+  width:30px;height:30px;border-radius:50%;
+  background:rgba(8,11,18,.88);border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.6);font-size:13px;font-style:italic;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .2s,border-color .2s;
+  font-family:Georgia,serif;
+}
+#infoBtn:hover{background:rgba(40,50,70,.97);border-color:rgba(255,255,255,.4);color:#fff;}
+#infoPanel{
+  position:fixed;bottom:54px;right:14px;z-index:299;
+  width:300px;background:rgba(6,9,16,.97);
+  border:1px solid rgba(255,255,255,.12);border-radius:12px;
+  padding:14px 16px;box-shadow:0 8px 32px rgba(0,0,0,.6);
+  display:none;
+}
+#infoPanel.visible{display:block;}
 </style>
 </head>
 <body>
@@ -167,6 +186,14 @@ canvas{display:block;position:fixed;top:60px;left:0;right:0;bottom:0}
         <div id="mConnList"></div>
       </div>
     </div>
+  </div>
+</div>
+<div id="infoBtn">i</div>
+<div id="infoPanel">
+  <div style="font-size:11px;font-weight:700;margin-bottom:8px;color:rgba(255,255,255,.8)">О проекте</div>
+  <div style="font-size:11px;line-height:1.6;color:rgba(255,255,255,.6)">
+    Гипотеза 6 рукопожатий гласит, что любые два человека на Земле связаны друг с другом в среднем через шесть-семь промежуточных знакомых.<br><br>
+    Проект представляет собой интерактивную карту связей между культовыми людьми XX&#8209;ого века. Вы можете узнать, какие неожиданные встречи случались в прошлом столетии и какие связи объединяют строителей эпохи.
   </div>
 </div>
 <div id="statsBar"><span id="statsLine"></span><div style="margin-top:4px;font-size:8px;color:rgba(255,255,255,.15)">проект maruijama &nbsp;·&nbsp; последнее обновление данных: 25.03.2026</div></div><div id="introCard">Узнайте сколько рукопожатий между культовыми личностями XX века</div>
@@ -357,6 +384,7 @@ function loop(){
 }
 // ═══ TOOLTIPS ═══
 function utip(){
+  if(window.matchMedia&&window.matchMedia('(pointer:coarse)').matches){document.getElementById("nodeTip").style.display="none";document.getElementById("edgeTip").style.display="none";return;}
   const tt=document.getElementById("nodeTip"),et=document.getElementById("edgeTip");
   if(hN){
     tt.style.display="block";
@@ -546,6 +574,15 @@ document.getElementById("langBtn").addEventListener("click",()=>{
 });
 // ═══ END i18n ═══
 loop();
+document.getElementById("infoBtn").addEventListener("click", function(e){
+  e.stopPropagation();
+  const p = document.getElementById("infoPanel");
+  p.classList.toggle("visible");
+});
+document.addEventListener("click", function(){
+  document.getElementById("infoPanel").classList.remove("visible");
+});
+
 
 // ═══ TOUCH SUPPORT ═══
 (()=>{
